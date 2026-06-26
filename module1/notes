@@ -1,0 +1,132 @@
+
+Bu obje şunları içerir:
+
+✔ value: 5
+✔ type: int
+✔ metadata (Python iç bilgileri)
+
+
+Python’da int sabit bit sayılı değildir.
+🔥 Python int’in özelliği:
+Bellek yettiği kadar büyür
+Sınır “teorik olarak yok”
+sınır ram/bellek
+bu nedenle double kalktı
+
+
+🟢 “dinamik type system” kullanır
+
+👉 yani:
+
+değişkenin tipi önceden yazılmaz
+runtime’da anlaşılır
+pytjhonda fonksiyonlar değişkene atanabilir
+pythonda fonksiyon return değeri olarak başka bir fonksiyonu return edebilir
+Python’da bir fonksiyon birden fazla değer döndürebilir
+
+"""
+
+Pythonda 3 seviye var:
+
+1 - Built-in (hazir)  #Pyhton da hazir arac kutusu include (import) etmeden kullanabiliriz python içinde otomatik gelir
+	print, len, type  #çekirdek modül , en temel fonksiyonlari içerir
+2 - Modüller
+	math, random
+3 - Senin yazdiklarin
+	fonksiyonlar, değişkenler
+
+"""
+
+
+Python’da her şey bir object (nesne) dir.
+
+"""
+#include <stdio.h>
+
+👉 C derleyicisi şunu yapar:
+
+📌 stdio.h dosyasinin içindeki kodu alir
+📌 Senin dosyanin içine yapiştirir gibi ekler
+#include = “copy-paste işlemi (derleme öncesi)
+
+"""
+
+"""
+
+🔴 C (#include)
+dosya içeriğini kopyalar
+derleme zamaninda olur
+“metin birleştirme”
+
+🟢 Python (import)
+dosya çaliştirilir
+memoryde object oluşur
+runtimeda olur
+
+"""
+Python’un yerleşik (built-in) fonksiyonudur --> PRİNT
+"""
+
+Python’da:
+
+fonksiyonlar bile object
+sayılar bile object
+sınıflar bile object
+modüller de object
+
+👉 Böyle olmasının amacı:
+
+her şeyi yönetilebilir yapmak
+esnek programlama sağlamak
+runtime’da her şeye erişebilmek
+
+Python:
+✔ dinamik
+✔ esnek
+✔ her şey object
+
+👉 Pythonda değişken vardir ama:
+
+✔ veri tutmaz
+✔ objecte referans tutar
+✔ sadece isimdir
+
+"""
+
+"""
+
+Dinamiklik (çok önemli)
+x = 10
+x = "hello"
+x = [1, 2, 3]
+
+❌ Yanlış düşünce:
+x = kutu (C gibi)
+x = veri tutuyor
+
+🟢 Doğru düşünce:
+📦 object var
+🏷 x = o object’e verilen isim
+
+"""
+
+"""
+
+a = 10
+b = a
+
+print(id(a))			EŞİTLERDİR ÇÜNKÜ 
+print(id(b))            a 10u REFERANS EDER  
+a = objecte bağlanan bir isim (reference) 
+
+"""
+
+Bu satir:
+
+if __name__ == "__main__":
+
+şunu soruyor:
+
+👉 “Bu dosya direkt mi çaliştirildi, yoksa import mu edildi?”
+👉 import = dosyayı kullan ama çalıştırma
+👉 main bloğu = sadece tek başına çalıştırınca çalış

@@ -1,0 +1,152 @@
+Tür      	   Stil	      Örnek
+----------------------------------------
+Class	    PascalCase	 GardenPlant
+Function	snake_case	 calculate_area()
+Variable	snake_case	 plant_name
+
+
+🔹 1. STATIC METHOD ÖRNEĞİ
+class Human:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    @staticmethod
+    def is_adult(age):
+        # Static method: object'e bağlı değil
+        # Sadece dışarıdan verilen age ile çalışır
+        return age >= 18
+
+
+# kullanım
+print(Human.is_adult(15))  # False
+print(Human.is_adult(20))  # True
+
+
+
+
+🔹 2. CLASS METHOD (ANONYMOUS OBJECT)
+class Human:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    @classmethod
+    def create_unknown(cls):
+        # Class method: yeni object oluşturur
+        # cls = Human class'ı
+        return cls("Unknown", 0)
+
+
+# kullanım
+h1 = Human.create_unknown()
+print(h1.name, h1.age)  # Unknown 0
+
+
+
+
+🔹 3. INHERITANCE (Flower → Seed mantığı)
+class Human:
+    def __init__(self, name):
+        self.name = name
+
+
+class Employee(Human):
+    def __init__(self, name, salary):
+        # super(): parent class'ı çağırır
+        super().__init__(name)
+        self.salary = salary
+
+    def show(self):
+        print(f"{self.name} earns {self.salary} TL")
+
+
+# kullanım
+e = Employee("Ali", 20000)
+e.show()
+🔹 4. NESTED CLASS (İÇ CLASS + ENCAPSULATION)
+class Human:
+
+    class Stats:
+        def __init__(self):
+            # private değişkenler (encapsulation)
+            self._eat = 0
+            self._sleep = 0
+
+        def show(self):
+            print(f"Eat: {self._eat}, Sleep: {self._sleep}")
+
+    def __init__(self, name):
+        self.name = name
+        self._stats = Human.Stats()  # nested class instance
+
+    def eat(self):
+        # her çağrıldığında sayacı artır
+        self._stats._eat += 1
+
+    def sleep(self):
+        self._stats._sleep += 1
+
+    def show_stats(self):
+        self._stats.show()
+
+
+# kullanım
+h = Human("Ayşe")
+h.eat()
+h.eat()
+h.sleep()
+h.show_stats()  # Eat: 2, Sleep: 1
+🔹 5. EXTRA STAT (Tree → shade mantığı)
+class Human:
+    def __init__(self, name):
+        self.name = name
+
+
+class Worker(Human):
+    def __init__(self, name):
+        super().__init__(name)
+        self._work_count = 0  # ekstra stat
+
+    def work(self):
+        self._work_count += 1
+        print(f"{self.name} is working")
+
+    def show_stats(self):
+        print(f"Work count: {self._work_count}")
+
+
+# kullanım
+w = Worker("Mehmet")
+w.work()
+w.work()
+w.show_stats()  # Work count: 2
+
+
+
+
+🔹 6. GLOBAL FUNCTION (CLASS DIŞI)
+class Human:
+    def __init__(self, name):
+        self.name = name
+
+    def show_stats(self):
+        print(f"{self.name} has no stats")
+
+
+def display_stats(obj):
+    # class dışı global fonksiyon
+    # herhangi bir object alır
+    obj.show_stats()
+
+
+# kullanım
+h = Human("Zeynep")
+display_stats(h)
+🔥 GENEL MANTIK (KAFANA OTURMASI İÇİN)
+static method → object’e bağlı değil
+class method → object üretir
+inheritance → class genişletir
+nested class → iç yapı / sayaç
+extra stat → sadece bazı class’lara özel
+global function → class dışı kontrol
