@@ -10,4 +10,12 @@ def main() -> None:
     print("This will raise an exception!")
 
     print("Testing the hidden create_earth: ", end="")
-    print(f"{alchemy.create_earth()}")
+
+    try:
+        print(f"{alchemy.create_earth()}")
+    except AttributeError as e:
+        print(e)
+
+
+if __name__ == "__main__":
+    main()

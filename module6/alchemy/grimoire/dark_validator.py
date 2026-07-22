@@ -1,10 +1,12 @@
-from alchemy.grimoire import light_spell_allowed_ingredients
+from .dark_spellbook import dark_spell_allowed_ingredients
 
 
-def validate_ingredients(ingredients: str):
-    all_ingrdts = light_spell_allowed_ingredients()
-    for i in all_ingrdts:
-        if ingredients.capitalize() == all_ingrdts[i].capitalize():
-            return "VALID"
-        i = i + 1
-    return "INVALID"
+def validate_ingredients(ingredients: str) -> str:
+    all_ingrdts = dark_spell_allowed_ingredients()
+    ingredients_lower = ingredients.lower()
+
+    for item in all_ingrdts:
+        if item.lower() in ingredients_lower:
+            return f"{ingredients}: VALID"
+
+    return f"{ingredients}: INVALID"

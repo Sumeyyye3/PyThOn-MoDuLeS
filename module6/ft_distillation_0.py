@@ -9,3 +9,7 @@ def main() -> None:
     print("Strength is creating ", end="")
     print(strength_potion())
     print("\n\n\n")
+
+
+if __name__ == "__main__":
+    main()

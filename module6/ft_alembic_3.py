@@ -8,3 +8,7 @@ def main() -> None:
         "'from ... import ...' structure"
     )
     print(create_air())
+
+
+if __name__ == "__main__":
+    main()
