@@ -1,8 +1,8 @@
-from ex1.factories import HealingCreatureFactory
-from ex1.factories import TransformCreatureFactory
+from ex1 import HealingCreatureFactory
+from ex1 import TransformCreatureFactory
 
 
-def test_heal(factory: HealingCreatureFactory):
+def test_heal(factory: HealingCreatureFactory) -> None:
     base = factory.create_base()
     evolved = factory.create_evolved()
 
@@ -17,7 +17,8 @@ def test_heal(factory: HealingCreatureFactory):
     print(evolved.attack())
     print(evolved.heal())
 
-def test_transform(factory: TransformCreatureFactory):
+
+def test_transform(factory: TransformCreatureFactory) -> None:
     base = factory.create_base()
     evolved = factory.create_evolved()
 
@@ -35,7 +36,8 @@ def test_transform(factory: TransformCreatureFactory):
     print(evolved.attack())
     print(evolved.revert())
 
-def main():
+
+def main() -> None:
     heal = HealingCreatureFactory()
     test_heal(heal)
 

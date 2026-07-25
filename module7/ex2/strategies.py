@@ -5,11 +5,11 @@ from ex1.h_t_capablty import TransformCapability, HealCapability
 
 class BattleStrategy(ABC):
     @abstractmethod
-    def act(self) -> None:
+    def act(self, creature: Creature) -> None:
         pass
 
     @abstractmethod
-    def is_valid(self) -> bool:
+    def is_valid(self, creature: Creature) -> bool:
         pass
 
 
@@ -22,9 +22,10 @@ class NormalStrategy(BattleStrategy):
         if not self.is_valid(creature):
             raise WrongStrategyError(
                 f"Invalid Creature '{creature.name} for this normal strategy")
+        print(creature.attack())
 
     def is_valid(self, creature: Creature) -> bool:
-        return True
+        return hasattr(creature, "attack")
 
 
 class AggressiveStrategy(BattleStrategy):
@@ -50,8 +51,8 @@ class DefensiveStrategy(BattleStrategy):
                 f"Invalid Creature '{creature.name}'\
  for this defensive strategy")
 
-        print(creature.attack())
         if isinstance(creature, HealCapability):
+            print(creature.attack())
             print(creature.heal())
 
     def is_valid(self, creature: Creature) -> bool:

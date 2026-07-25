@@ -19,10 +19,9 @@ def test_battle(factory1: CreatureFactory, factory2: CreatureFactory) -> None:
     print(f"{monster1.describe()} vs. {monster2.describe()} fight!")
     print(monster1.attack())
     print(monster2.attack())
-    
 
 
-def main():
+def main() -> None:
     flame_factory = FlameFactory()
     aqua_factory = AquaFactory()
 

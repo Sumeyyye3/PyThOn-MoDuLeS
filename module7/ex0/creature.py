@@ -17,9 +17,10 @@ class Creature(ABC):
 class Flameling(Creature):
     def __init__(self) -> None:
         super().__init__("Flameling", "Fire")
-    
+
     def attack(self) -> str:
         return "Flameling uses Ember!"
+
 
 class Pyrodon(Creature):
     def __init__(self) -> None:
@@ -35,7 +36,6 @@ class Aquabub(Creature):
 
     def attack(self) -> str:
         return "Aquabub uses Water Gun!"
-
 
 
 class Torragon(Creature):
