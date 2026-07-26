@@ -17,10 +17,8 @@ class ConfigError(Exception):
 
 
 def load_configuration() -> dict:
-    # 1. .env dosyasını yükle (Var olan sistem ortam değişkenlerini EZMEZ)
     env_loaded = load_dotenv(dotenv_path=".env", override=False)
 
-    # MATRIX_MODE ortam değişkeninden veya .env'den okunur
     pre_mode = os.getenv("MATRIX_MODE", "development").strip().lower()
 
     if pre_mode == "production":
@@ -33,7 +31,6 @@ def load_configuration() -> dict:
     config = {}
     missing = []
 
-    # Zorunlu değişkenleri kontrol et
     for var in REQUIRED_VARS:
         value = os.getenv(var)
         if value is None or value.strip() == "":
@@ -47,11 +44,9 @@ def load_configuration() -> dict:
             + ", ".join(missing)
         )
 
-    # Opsiyonel değişkenleri yükle
     for var, default in OPTIONAL_VARS.items():
         config[var] = os.getenv(var, default).strip()
 
-    # Validasyonlar
     mode = config["MATRIX_MODE"].lower()
     if mode not in VALID_MODES:
         raise ConfigError(f"Invalid MATRIX_MODE '{mode}'.")

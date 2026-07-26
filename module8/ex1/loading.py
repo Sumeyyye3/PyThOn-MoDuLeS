@@ -1,8 +1,4 @@
 import sys
-import matplotlib
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as grapg
 from importlib import metadata
 
 
@@ -101,8 +97,12 @@ def main():
         print("  poetry install")
         sys.exit(1)
 
+    import matplotlib
+    import numpy as np
+    import pandas as pd
 
     matplotlib.use("Agg")
+    import matplotlib.pyplot as grapg
 
     api = "--api" in sys.argv
 
