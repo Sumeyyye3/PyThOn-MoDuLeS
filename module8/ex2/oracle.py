@@ -22,12 +22,17 @@ def load_configuration() -> dict:
     pre_mode = os.getenv("MATRIX_MODE", "development").strip().lower()
 
     if pre_mode == "production":
-        print("[Oracle] Production mode detected - using environment variables.")
+        print(
+            "[Oracle] Production mode detected "
+            "- using environment variables."
+        )
     elif env_loaded:
         print("[Oracle] .env file detected and loaded (development mode).")
     else:
-        print("[Oracle] WARNING: No .env file found and relying on environment variables.")
-
+        print(
+            "[Oracle] WARNING: No .env file found and "
+            "relying on environment variables."
+        )
     config = {}
     missing = []
 
@@ -74,7 +79,10 @@ def run_development(config: dict) -> None:
     print("Configuration loaded:")
     print(f"Mode: {config['MATRIX_MODE']}")
 
-    if "localhost" in config["DATABASE_URL"] or "local" in config["DATABASE_URL"]:
+    if (
+        "localhost" in config["DATABASE_URL"]
+        or "local" in config["DATABASE_URL"]
+    ):
         print("Database: Connected to local instance")
     else:
         print("Database: Connected")

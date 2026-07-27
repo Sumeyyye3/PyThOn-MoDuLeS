@@ -45,6 +45,7 @@ def construct_env() -> None:
     print()
     print(site.getsitepackages()[0])
 
+
 def main() -> None:
     if sys.prefix == sys.base_prefix:
         real_env()

@@ -2,7 +2,7 @@ import sys
 from importlib import metadata
 
 
-def check_dependencies() -> None:
+def check_dependencies() -> list[str]:
     REQUIRED = {
         "pandas": "Data manipulation ready",
         "numpy": "Numerical computation ready",
