@@ -10,17 +10,17 @@ def check_dependencies() -> list[str]:
         "matplotlib": "Visualization ready",
     }
     print("Checking dependencies:")
-    missing = []
+    will_be_aploaded = []
 
     for packet, msg in REQUIRED.items():
         try:
             version = metadata.version(packet)
             print(f"[OK] {packet} ({version}) - {msg}")
         except metadata.PackageNotFoundError:
-            print(f"[MISSING] {packet} - required for: {msg}")
-            missing.append(packet)
+            print(f"[Missing] {packet} - required for: {msg}")
+            will_be_aploaded.append(packet)
 
-    return missing
+    return will_be_aploaded
 
 
 def generate_matrix_data(np, n_points=1000):
@@ -36,17 +36,18 @@ def fetch_external_data(np):
     try:
         import requests
 
-        url = "https://jsonplaceholder.typicode.com/posts"
-        response = requests.get(url, timeout=5)
+        url = "https://dummyjson.com/posts"
+        param = {"limit": 1000}
+        response = requests.get(url, params=param, timeout=5)
         response.raise_for_status()
-        raw = response.json()
+        raw = response.json()["posts"]
 
-        n_points = len(raw)
-        title_lengths = [len(post.get("title", "")) for post in raw]
+        raw_len = len(raw)
+        key_len = [len(post.get("title", "")) for post in raw]
 
         return {
-            "signal": np.array(title_lengths, dtype=float),
-            "noise": np.random.uniform(-1.0, 1.0, size=n_points),
+            "signal": np.array(key_len, dtype=float),
+            "noise": np.random.uniform(-1.0, 1.0, size=raw_len),
             "glitch": np.array([post.get("userId", 0) for post in raw]),
         }
     except Exception:
@@ -87,10 +88,10 @@ def create_graph(df, grapg):
 def main():
     print("LOADING STATUS: Loading programs...")
 
-    missing = check_dependencies()
+    will_be_aploaded = check_dependencies()
 
-    if missing:
-        print("\nMissing dependencies:", ", ".join(missing))
+    if will_be_aploaded:
+        print("\nMissing dependencies:", ", ".join(will_be_aploaded))
         print("\nInstall with pip:")
         print("  pip install -r requirements.txt")
         print("\nInstall with Poetry:")
