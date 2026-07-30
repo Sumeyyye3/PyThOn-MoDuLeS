@@ -12,8 +12,44 @@ VALID_MODES = {"development", "production"}
 VALID_LOG_LEVELS = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}
 
 
-class ConfigError(Exception):
+class ConfigurationError(Exception):
     pass
+
+
+def valid_mod_level(config: dict[str]) -> None:
+    for key, value in OPTIONAL_VARS.items():
+        config[key] = os.getenv(key, value).strip()
+
+    mode = config["MATRIX_MODE"].lower()
+    if mode not in VALID_MODES:
+        raise ConfigurationError
+    (f"Invalid MATRIX_MODE '{mode}'.")
+    config["MATRIX_MODE"] = mode
+
+    level = config["LOG_LEVEL"].upper()
+    if level not in VALID_LOG_LEVELS:
+        raise ConfigurationError
+    (f"Invalid LOG_LEVEL '{level}'.")
+    config["LOG_LEVEL"] = level
+
+
+def add_required() -> dict[str]:
+    config = {}
+    missing = []
+
+    for var in REQUIRED_VARS:
+        value = os.getenv(var)
+        if value is None or value.strip() == "":
+            missing.append(var)
+        else:
+            config[var] = value.strip()
+
+    if missing:
+        raise ConfigurationError(
+            "Missing required configuration variable(s): "
+            + ", ".join(missing)
+        )
+    return config
 
 
 def load_configuration() -> dict:
@@ -33,35 +69,9 @@ def load_configuration() -> dict:
             "[Oracle] WARNING: No .env file found and "
             "relying on environment variables."
         )
-    config = {}
-    missing = []
 
-    for var in REQUIRED_VARS:
-        value = os.getenv(var)
-        if value is None or value.strip() == "":
-            missing.append(var)
-        else:
-            config[var] = value.strip()
-
-    if missing:
-        raise ConfigError(
-            "Missing required configuration variable(s): "
-            + ", ".join(missing)
-        )
-
-    for var, default in OPTIONAL_VARS.items():
-        config[var] = os.getenv(var, default).strip()
-
-    mode = config["MATRIX_MODE"].lower()
-    if mode not in VALID_MODES:
-        raise ConfigError(f"Invalid MATRIX_MODE '{mode}'.")
-    config["MATRIX_MODE"] = mode
-
-    level = config["LOG_LEVEL"].upper()
-    if level not in VALID_LOG_LEVELS:
-        raise ConfigError(f"Invalid LOG_LEVEL '{level}'.")
-    config["LOG_LEVEL"] = level
-
+    config = add_required()
+    valid_mod_level(config)
     return config
 
 
@@ -73,7 +83,7 @@ def mask_secret(value: str, visible: int = 4) -> str:
     return "*" * (len(value) - visible) + value[-visible:]
 
 
-def run_development(config: dict) -> None:
+def mod_development(config: dict) -> None:
     print("\nORACLE STATUS: Reading the Matrix...")
 
     print("Configuration loaded:")
@@ -97,7 +107,7 @@ def run_development(config: dict) -> None:
     print("[OK] Production overrides available")
 
 
-def run_production(config: dict) -> None:
+def mod_production(config: dict) -> None:
     print("\nORACLE STATUS: Reading the Matrix...")
 
     print("Configuration loaded:")
@@ -113,24 +123,23 @@ def run_production(config: dict) -> None:
     print("[OK] Production overrides available")
 
 
-def main() -> int:
+def main() -> None:
     try:
         config = load_configuration()
-    except ConfigError as exc:
+    except ConfigurationError as exc:
         print(f"[Oracle] ERROR: {exc}", file=sys.stderr)
-        return 1
+        return
     except Exception as exc:
         print(f"[Oracle] UNEXPECTED ERROR: {exc}", file=sys.stderr)
-        return 1
+        return
 
     if config["MATRIX_MODE"] == "development":
-        run_development(config)
+        mod_development(config)
     else:
-        run_production(config)
+        mod_production(config)
 
     print("\nThe Oracle sees all configurations.")
-    return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()
