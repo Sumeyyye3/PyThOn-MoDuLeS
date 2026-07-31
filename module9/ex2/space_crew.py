@@ -36,10 +36,16 @@ class SpaceMission(BaseModel):
         if not self.mission_id.startswith("M"):
             raise ValueError('Mission ID must start with "M"')
 
-        has_leader = any(
-            member.rank in (Rank.COMMANDER, Rank.CAPTAIN)
-            for member in self.crew
-        )
+        has_leader = False
+        
+        for member in self.crew:
+            if (
+                member.rank == Rank.COMMANDER
+                or member.rank == Rank.CAPTAIN
+            ):
+                has_leader = True
+                break
+
         if not has_leader:
             raise ValueError(
                 "Mission must have at least one Commander or Captain"
@@ -54,6 +60,7 @@ class SpaceMission(BaseModel):
                     "Long missions (> 365 days) require at least "
                     "50% experienced crew (5+ years)"
                 )
+
         if not all(member.is_active for member in self.crew):
             raise ValueError("All crew members must be active")
 
@@ -127,7 +134,7 @@ def testcases() -> None:
 
     print("Expected validation error:")
     try:
-        invalid_crew = [
+        list_crews = [
             CrewMember(
                 member_id="CM04",
                 name="Bob Vance",
@@ -152,7 +159,7 @@ def testcases() -> None:
             destination="Moon",
             launch_date=datetime.now(),
             duration_days=30,
-            crew=invalid_crew,
+            crew=list_crews,
             budget_millions=150.0,
         )
     except ValidationError as e:
