@@ -4,7 +4,7 @@ from typing import Optional
 from pydantic import BaseModel, Field, ValidationError, model_validator
 
 
-class ContactType(str, Enum):
+class ContactType(Enum):
     RADIO = "radio"
     VISUAL = "visual"
     PHYSICAL = "physical"
@@ -12,13 +12,13 @@ class ContactType(str, Enum):
 
 
 class AlienContact(BaseModel):
-    contact_id: str = Field(..., min_length=5, max_length=15)
+    contact_id: str = Field(min_length=5, max_length=15)
     timestamp: datetime
-    location: str = Field(..., min_length=3, max_length=100)
+    location: str = Field(min_length=3, max_length=100)
     contact_type: ContactType
-    signal_strength: float = Field(..., ge=0.0, le=10.0)
-    duration_minutes: int = Field(..., ge=1, le=1440)
-    witness_count: int = Field(..., ge=1, le=100)
+    signal_strength: float = Field(ge=0.0, le=10.0)
+    duration_minutes: int = Field(ge=1, le=1440)
+    witness_count: int = Field(ge=1, le=100)
     message_received: Optional[str] = Field(default=None, max_length=500)
     is_verified: bool = False
 
@@ -44,7 +44,6 @@ class AlienContact(BaseModel):
         return self
 
 
-# Parametre ismi obj_base ile iç kısımdaki erişimler eşleştirildi
 def print_values(obj_base: AlienContact) -> None:
     print("Alien Contact Log Validation")
     print("======================================")
@@ -61,7 +60,7 @@ def print_values(obj_base: AlienContact) -> None:
     )
     print(f"Witnesses: {obj_base.witness_count}")
     print(f"Message: '{obj_base.message_received}'")
-    print("======================================")
+    print("\n======================================")
 
 
 def testcases() -> None:
@@ -79,7 +78,8 @@ def testcases() -> None:
         )
         print_values(obj_base1)
     except ValidationError as e:
-        print(f"Unexpected error: {e}")
+        for error in e.errors():
+            print(error["msg"].replace("Value error, ", ""))
 
     print("Expected validation error:")
 
