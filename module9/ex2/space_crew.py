@@ -22,7 +22,7 @@ class CrewMember(BaseModel):
 
 
 class SpaceMission(BaseModel):
-    mission_id: str = Field( min_length=5, max_length=15)
+    mission_id: str = Field(min_length=5, max_length=15)
     mission_name: str = Field(min_length=3, max_length=100)
     destination: str = Field(min_length=3, max_length=50)
     launch_date: datetime
@@ -37,7 +37,7 @@ class SpaceMission(BaseModel):
             raise ValueError('Mission ID must start with "M"')
 
         has_leader = False
-        
+
         for member in self.crew:
             if (
                 member.rank == Rank.COMMANDER
@@ -52,9 +52,11 @@ class SpaceMission(BaseModel):
             )
 
         if self.duration_days > 365:
-            experienced_count = sum(
-                1 for member in self.crew if member.years_experience >= 5
-            )
+            experienced_count = 0
+
+            for member in self.crew:
+                if member.years_experience >= 5:
+                    experienced_count += 1
             if experienced_count < len(self.crew) / 2:
                 raise ValueError(
                     "Long missions (> 365 days) require at least "
@@ -151,6 +153,7 @@ def testcases() -> None:
                 specialization="Communications",
                 years_experience=1,
             )
+
         ]
 
         SpaceMission(

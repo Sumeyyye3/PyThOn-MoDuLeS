@@ -23,7 +23,7 @@ def print_values(obj_base: SpaceStation) -> None:
     print(f"Crew: {obj_base.crew_size}")
     print(f"Power: {obj_base.power_level}")
     print(f"Oxygen: {obj_base.oxygen_level}")
-    print(f"Status: {obj_base.is_operational}")
+    print(f"Status: {obj_base.notes}")
     print("========================================\n")
 
 
@@ -59,8 +59,8 @@ def main() -> None:
         print_values(obj_base)
     except ValidationError as e:
         print("Expected validation error:")
-        for a in e.errors():
-            print(a['msg'])
+        for msg in e.errors():
+            print(msg['msg'])
 
 
 if __name__ == "__main__":
