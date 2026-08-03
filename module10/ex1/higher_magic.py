@@ -17,8 +17,8 @@ def spell_combiner(
     def combined_spell(target: str, power: int) -> tuple[str, str]:
         result_one = spell1(target, power)
         result_two = spell2(target, power)
-
-        return result_one, result_two
+        results = result_one, result_two
+        return results
 
     return combined_spell
 
