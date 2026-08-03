@@ -3,13 +3,16 @@ from typing import Any
 
 def artifact_sorter(
         artifacts: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    power_values  = lambda a: a["power"]
+    power_values = lambda a: a["power"]  # noqa: E731
     sorted_list = sorted(artifacts, key=power_values, reverse=True)
     return sorted_list
 
 
-def power_filter(mages: list[dict], min_power: int) -> list[dict]:
-    filtered_list = list(filter(lambda mage : 
+def power_filter(
+        mages: list[dict[str, Any]],
+        min_power: int
+) -> list[dict[str, Any]]:
+    filtered_list = list(filter(lambda mage:
                                 mage["power"] > min_power, mages))
     return filtered_list
 
@@ -33,7 +36,7 @@ def mage_stats(mages: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def print_list(
-    example_list: list[dict[str, Any]]) -> None:
+        example_list: list[dict[str, Any]]) -> None:
     print("Testing artifact sorter...")
 
     for artifact in example_list:
@@ -48,12 +51,14 @@ def print_names(example_list: list[str]) -> None:
         print(name)
 
 
-def print_stats_list(example_list: list[dict[str, Any]]) -> None:
-    for stat in example_list:
-        print(f"{example_list[stat]}")
+def print_stats_dict(examp: dict[str, Any]) -> None:
+    print(
+        f"Max: {examp['max_power']},\n"
+        f"Min: {examp['min_power']},\nAverage: {examp['average_power']}\n"
+    )
 
 
-def  test_sorter() -> None:
+def test_sorter() -> None:
     examp_dict1 = {
         "name": "Sumeyye",
         "power": 22,
@@ -137,7 +142,7 @@ def test_map() -> None:
     print_names(spell_name_list)
 
 
-def  test_stats() -> None:
+def test_stats() -> None:
     examp_dict1 = {
         "name": "Sumeyye",
         "power": 22,
@@ -172,8 +177,9 @@ def  test_stats() -> None:
         examp_dict1, examp_dict2, examp_dict3,
         examp_dict4, examp_dict5, examp_dict6
         ]
-    stat_list = mage_stats(examp_list)
-    print_stats_list(stat_list)
+    stat_dict = mage_stats(examp_list)
+    print_stats_dict(stat_dict)
+
 
 def main() -> None:
     test_sorter()

@@ -1,5 +1,6 @@
 from typing import Callable, Any
 
+
 def mage_counter() -> Callable:
     i = 0
 
@@ -31,6 +32,7 @@ def enchantment_factory(enchantment_type: str) -> Callable:
 
 def memory_vault() -> dict[str, Callable]:
     memory = {}
+
     def store(k: str, v: Any) -> None:
         memory[k] = v
 
@@ -75,7 +77,6 @@ def test_enc_factory() -> None:
     print(frozen("Shield"))
 
 
-
 def test_memory() -> None:
     print("Testing memory vault...")
 
@@ -88,7 +89,6 @@ def test_memory() -> None:
     print(f"Recall 'unknown': {vault['recall']('unknown')}")
 
 
-
 def test_spell_ac() -> None:
     print("Testing spell accumulator...")
 
@@ -97,6 +97,7 @@ def test_spell_ac() -> None:
     print(f"Base 100, add 20: {accumulator(20)}")
     print(f"Base 100, add 30: {accumulator(30)}")
     print(f"Base 100, add 50: {accumulator(50)}")
+
 
 def main():
 
@@ -107,7 +108,6 @@ def main():
     test_enc_factory()
     print("\n=====================================\n")
     test_memory()
-    
 
 
 if __name__ == "__main__":
