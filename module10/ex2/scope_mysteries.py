@@ -74,8 +74,6 @@ def test_enc_factory() -> None:
 def test_memory() -> None:
     vault = memory_vault()
 
-    vault["store"]("secret", 42)
-
     print(f"{vault['store']('secret', 42)}")
     print(f"Recall 'secret': {vault['recall']('secret')}")
     print(f"Recall 'unknown': {vault['recall']('unknown')}")

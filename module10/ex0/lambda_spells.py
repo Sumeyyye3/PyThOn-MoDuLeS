@@ -37,7 +37,6 @@ def mage_stats(mages: list[dict[str, Any]]) -> dict[str, Any]:
 
 def print_list(
         example_list: list[dict[str, Any]]) -> None:
-    print("Testing artifact sorter...")
 
     for artifact in example_list:
         print(
