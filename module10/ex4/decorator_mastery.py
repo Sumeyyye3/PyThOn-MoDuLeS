@@ -35,8 +35,6 @@ def power_validator(
             **kwargs: Any
         ) -> str:
             power = kwargs.get("power")
-            if power is None:
-                power = args[-1]
 
             if not isinstance(power, int):
                 return "Insufficient power for this spell"
@@ -65,10 +63,10 @@ def retry_spell(
             for attempt in range(1, max_attempts + 1):
                 try:
                     return func(*args, **kwargs)
-                except Exception:
+                except Exception as e:
                     if attempt < max_attempts:
                         print(
-                            "Spell failed, retrying... "
+                            f"{e}, retrying... "
                             f"(attempt {attempt}/"
                             f"{max_attempts})"
                         )
@@ -118,6 +116,7 @@ def failed_spell() -> str:
     raise RuntimeError("Spell failed")
 
 
+@retry_spell(3)
 def successful_spell() -> str:
     return "Waaaaaaagh spelled !"
 

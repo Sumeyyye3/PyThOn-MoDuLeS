@@ -3,8 +3,7 @@ from typing import Any
 
 def artifact_sorter(
         artifacts: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    power_values = lambda a: a["power"]  # noqa: E731
-    sorted_list = sorted(artifacts, key=power_values, reverse=True)
+    sorted_list = sorted(artifacts, key=lambda a: a["power"], reverse=True)
     return sorted_list
 
 
@@ -13,7 +12,7 @@ def power_filter(
         min_power: int
 ) -> list[dict[str, Any]]:
     filtered_list = list(filter(lambda mage:
-                                mage["power"] > min_power, mages))
+                                mage["power"] >= min_power, mages))
     return filtered_list
 
 

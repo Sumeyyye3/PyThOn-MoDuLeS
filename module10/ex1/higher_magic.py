@@ -84,7 +84,7 @@ def main() -> None:
 
     print("\nTesting conditional caster...")
 
-    def strong_target(power: int) -> bool:
+    def strong_target(_target: str, power: int) -> bool:
         return power >= 50
 
     conditional_fireball = conditional_caster(
